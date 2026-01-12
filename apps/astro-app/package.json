@@ -1,0 +1,45 @@
+{
+	"name": "unseal-astro",
+	"type": "module",
+	"version": "0.0.1",
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "deno run --allow-net --allow-read --allow-env --allow-ffi ./dist/server/entry.mjs",
+		"start:prod": "pnpm preview",
+		"astro": "astro",
+		"lint": "biome check --write"
+	},
+	"dependencies": {
+		"@astrojs/react": "^4.4.2",
+		"@astrojs/sitemap": "^3.6.0",
+		"@deno/astro-adapter": "^0.3.2",
+		"@effect/opentelemetry": "^0.59.0",
+		"@effect/platform": "^0.93.0",
+		"@effect/platform-node": "^0.100.0",
+		"@nanostores/react": "^1.0.0",
+		"@opentelemetry/exporter-logs-otlp-http": "^0.208.0",
+		"@opentelemetry/exporter-trace-otlp-http": "^0.208.0",
+		"@opentelemetry/sdk-logs": "^0.208.0",
+		"@opentelemetry/sdk-metrics": "^2.2.0",
+		"@opentelemetry/sdk-trace-base": "^2.2.0",
+		"@opentelemetry/sdk-trace-node": "^2.2.0",
+		"@opentelemetry/sdk-trace-web": "^2.2.0",
+		"@tailwindcss/vite": "^4.1.17",
+		"@types/react": "^19.2.2",
+		"@types/react-dom": "^19.2.2",
+		"@repo/types": "workspace:*",
+		"@repo/ui": "workspace:*",
+		"@repo/custom-effects": "workspace:*",
+		"astro": "^5.15.4",
+		"effect": "^3.19.3",
+		"lucide-react": "^0.553.0",
+		"nanostores": "^1.0.1",
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0",
+		"tailwindcss": "^4.1.17"
+	},
+	"devDependencies": {
+		"posthog-js": "^1.292.0"
+	}
+}

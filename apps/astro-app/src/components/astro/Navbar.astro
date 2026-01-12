@@ -1,0 +1,167 @@
+---
+interface Props {
+	logoText?: string;
+}
+
+const { logoText = "Project Template" } = Astro.props;
+---
+
+<nav class="bg-white dark:bg-gray-900 shadow-sm border-b border-red-100 dark:border-gray-700 transition-colors duration-300" aria-label="Main navigation">
+	<div class="max-w-4xl mx-auto px-4">
+		<div class="flex items-center justify-between h-16">
+
+
+			<!-- Logo -->
+			<div class="flex items-center justify-start md:justify-center md:flex-1">
+				<a
+					href="/"
+					class="flex items-center gap-2 text-gray-900 dark:text-white hover:text-red-600 dark:hover:text-red-400 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded-md px-2 py-1"
+					aria-label="Go to homepage"
+				>
+					<img
+						src="/favicon.png"
+						alt=""
+						class="w-8 h-8"
+						aria-hidden="true"
+					/>
+					<span class="font-bold text-lg">{logoText}</span>
+				</a>
+			</div>
+
+			<!-- Dark mode toggle (desktop) -->
+			<div class="hidden md:flex md:items-center md:justify-end md:gap-2">
+				<button
+					type="button"
+					id="dark-mode-toggle"
+					class="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+					aria-label="Toggle dark mode"
+				>
+					<!-- Sun icon (shown in dark mode) -->
+					<svg
+						id="sun-icon"
+						class="hidden h-5 w-5"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						aria-hidden="true"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+						></path>
+					</svg>
+					<!-- Moon icon (shown in light mode) -->
+					<svg
+						id="moon-icon"
+						class="h-5 w-5"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						aria-hidden="true"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+						></path>
+					</svg>
+				</button>
+			</div>
+
+			<!-- Mobile: Dark mode toggle -->
+			<div class="flex items-center gap-2 md:hidden">
+				<!-- Dark mode toggle (mobile) -->
+				<button
+					type="button"
+					id="dark-mode-toggle-mobile"
+					class="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+					aria-label="Toggle dark mode"
+				>
+					<!-- Sun icon (shown in dark mode) -->
+					<svg
+						class="sun-icon-mobile hidden h-5 w-5"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						aria-hidden="true"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
+						></path>
+					</svg>
+					<!-- Moon icon (shown in light mode) -->
+					<svg
+						class="moon-icon-mobile h-5 w-5"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke-width="1.5"
+						stroke="currentColor"
+						aria-hidden="true"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"
+						></path>
+					</svg>
+				</button>
+			</div>
+		</div>
+	</div>
+
+
+</nav>
+
+<script>
+	// Dark mode toggle functionality
+	const darkModeToggle = document.getElementById("dark-mode-toggle");
+	const darkModeToggleMobile = document.getElementById("dark-mode-toggle-mobile");
+	const sunIcon = document.getElementById("sun-icon");
+	const moonIcon = document.getElementById("moon-icon");
+	const sunIconMobile = document.querySelector(".sun-icon-mobile");
+	const moonIconMobile = document.querySelector(".moon-icon-mobile");
+
+	const updateDarkModeIcons = (isDark: boolean) => {
+		if (isDark) {
+			sunIcon?.classList.remove("hidden");
+			moonIcon?.classList.add("hidden");
+			sunIconMobile?.classList.remove("hidden");
+			moonIconMobile?.classList.add("hidden");
+		} else {
+			sunIcon?.classList.add("hidden");
+			moonIcon?.classList.remove("hidden");
+			sunIconMobile?.classList.add("hidden");
+			moonIconMobile?.classList.remove("hidden");
+		}
+	};
+
+	const toggleDarkMode = () => {
+		const isDark = document.documentElement.classList.toggle("dark");
+		localStorage.setItem("theme", isDark ? "dark" : "light");
+		updateDarkModeIcons(isDark);
+	};
+
+	// Initialize dark mode based on user preference
+	const initDarkMode = () => {
+		const savedTheme = localStorage.getItem("theme");
+		const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+		const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
+		
+		if (isDark) {
+			document.documentElement.classList.add("dark");
+		}
+		updateDarkModeIcons(isDark);
+	};
+
+	initDarkMode();
+	darkModeToggle?.addEventListener("click", toggleDarkMode);
+	darkModeToggleMobile?.addEventListener("click", toggleDarkMode);
+
+
+</script>

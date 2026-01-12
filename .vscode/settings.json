@@ -1,0 +1,11 @@
+{
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "rust-analyzer.linkedProjects": [
+    "${workspaceFolder}/packages/rust-pdf2john/Cargo.toml"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
+}

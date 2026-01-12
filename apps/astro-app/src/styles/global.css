@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+	input[type="range"].slider-red::-webkit-slider-thumb {
+		appearance: none;
+		width: 20px;
+		height: 20px;
+		background: #dc2626;
+		cursor: pointer;
+		border-radius: 50%;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+	}
+
+	input[type="range"].slider-red::-moz-range-thumb {
+		width: 20px;
+		height: 20px;
+		background: #dc2626;
+		cursor: pointer;
+		border-radius: 50%;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+		border: none;
+	}
+}

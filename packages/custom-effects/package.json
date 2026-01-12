@@ -1,0 +1,19 @@
+{
+	"name": "@repo/custom-effects",
+	"version": "1.0.0",
+	"scripts": {
+		"lint": "biome check --write",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"effect": "^3.19.6"
+	},
+	"devDependencies": {
+		"@repo/typescript-config": "workspace:*",
+		"typescript": "5.9.3"
+	},
+	"exports": {
+		".": "./src/index.ts",
+		"./*": "./src/*.ts"
+	}
+}

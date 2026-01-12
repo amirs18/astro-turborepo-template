@@ -1,0 +1,32 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".astro/**", "dist/**"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "check-types": {
+      "dependsOn": ["^check-types"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "setup:rust": {
+      "dependsOn": []
+    },
+    "build:rust": {
+      "dependsOn": ["setup:rust"],
+      "inputs": ["src/**", "Cargo.toml", "Cargo.lock"],
+      "outputs": ["pkg/**"]
+    },
+    "start:prod": {
+      "dependsOn": ["build"]
+    }
+  }
+}
