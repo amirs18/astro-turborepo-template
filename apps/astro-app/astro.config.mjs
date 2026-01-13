@@ -14,12 +14,8 @@ export default defineConfig({
 	},
 	env: {
 		schema: {
-			HASHCAT_API_KEY: envField.string({
-				access: "secret",
-				context: "server",
-			}),
 			OTEL_SERVICE_NAME: envField.string({
-				default: "unseal-pdf",
+				default: "astro-app",
 				access: "secret",
 				context: "server",
 			}),
