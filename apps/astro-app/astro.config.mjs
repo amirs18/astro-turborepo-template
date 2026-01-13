@@ -8,7 +8,6 @@ import { defineConfig, envField } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-	site: "https://pdfambulance.com",
 	vite: {
 		plugins: [tailwindcss()],
 	},
@@ -30,7 +29,6 @@ export default defineConfig({
 			}),
 		},
 	},
-
 	adapter: deno(),
 	integrations: [react(), sitemap()],
 });

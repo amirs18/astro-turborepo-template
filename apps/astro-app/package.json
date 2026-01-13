@@ -19,6 +19,7 @@
 		"@effect/platform": "^0.93.0",
 		"@effect/platform-node": "^0.100.0",
 		"@elysiajs/eden": "^1.4.6",
+		"@elysiajs/openapi": "^1.4.13",
 		"@nanostores/react": "^1.0.0",
 		"@opentelemetry/exporter-logs-otlp-http": "^0.208.0",
 		"@opentelemetry/exporter-trace-otlp-http": "^0.208.0",
