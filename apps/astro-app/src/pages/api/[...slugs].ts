@@ -9,7 +9,7 @@ export const app = new Elysia({ prefix: "/api" })
 	.get("/", () => "hello, World!")
 	.post("/", ({ body }) => body, {
 		body: t.Object({
-			name: t.String(),
+			name: t.String({ examples: ["Astro", "Elysia"] }),
 		}),
 	});
 
