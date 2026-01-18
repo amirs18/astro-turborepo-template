@@ -14,4 +14,4 @@ export const analyticsEventEffect = Effect.functionWithSpan({
 		name: "analytics-event",
 		attributes: { data },
 	}),
-});
+})
