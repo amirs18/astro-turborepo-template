@@ -1,9 +1,9 @@
 import { defineAction } from "astro:actions";
-import * as env from "astro:env/server";
+import { CustomEffects } from "@repo/custom-effects";
 import { AnalyticsEventDTOSchema } from "@repo/types/analitics-event-dtos";
 import { Effect } from "effect";
 import { analyticsEventEffect } from "./effects";
-import { CustomEffects } from "@repo/custom-effects";
+import { getTelemetryEnv } from "./env";
 
 export const analyticsActions = {
 	analytics: defineAction({
@@ -14,7 +14,7 @@ export const analyticsActions = {
 			const payload = { ...data, attributes };
 			const _res = await Effect.runPromise(
 				analyticsEventEffect(payload).pipe(
-					...CustomEffects.buildLayers(env),
+					...CustomEffects.buildLayers(getTelemetryEnv()),
 				),
 			);
 			// Return success - PostHog tracking happens client-side

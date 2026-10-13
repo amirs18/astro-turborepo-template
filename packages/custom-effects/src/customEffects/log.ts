@@ -1,10 +1,10 @@
-import { Effect, LogLevel } from "effect";
+import { Effect, type LogLevel } from "effect";
 
 export const CustomLog = (
-	level: LogLevel.Literal,
+	level: LogLevel.Severity,
 	message: { message: string; [key: string]: unknown },
 ) => {
-	return Effect.logWithLevel(LogLevel.fromLiteral(level), message);
+	return Effect.logWithLevel(level)(message);
 };
 
 export const logDebug = (message: {
@@ -25,7 +25,7 @@ export const logWarning = (message: {
 	message: string;
 	[key: string]: unknown;
 }) => {
-	return CustomLog("Warning", message);
+	return CustomLog("Warn", message);
 };
 
 export const logError = (message: {
