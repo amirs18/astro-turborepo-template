@@ -2,10 +2,32 @@ packages:
   - apps/*
   - packages/*
 
-ignoredBuiltDependencies:
-  - '@parcel/watcher'
-  - core-js
-  - esbuild
-  - msgpackr-extract
-  - protobufjs
-  - sharp
+# Elysia still requests a file-type release with known parser DoS issues.
+overrides:
+  'elysia>file-type': '22.1.1'
+
+# Explicitly reviewed latest releases; keep pnpm's age policy for all others.
+minimumReleaseAgeExclude:
+  - '@effect/opentelemetry@4.0.4'
+  - '@effect/platform-node-shared@4.0.4'
+  - '@effect/platform-node@4.0.4'
+  - '@turbo/darwin-64@2.11.8'
+  - '@turbo/darwin-arm64@2.11.8'
+  - '@turbo/linux-64@2.11.8'
+  - '@turbo/linux-arm64@2.11.8'
+  - '@turbo/windows-64@2.11.8'
+  - '@turbo/windows-arm64@2.11.8'
+  - 'effect@4.0.4'
+  - 'lucide-react@1.56.0'
+  - 'postcss@8.5.30'
+  - 'strtok3@10.5.0'
+  - 'turbo@2.11.8'
+
+# pnpm 12 replaces ignoredBuiltDependencies with explicit build permissions.
+allowBuilds:
+  '@parcel/watcher': false
+  core-js: false
+  esbuild: false
+  msgpackr-extract: false
+  protobufjs: false
+  sharp: false

@@ -1,11 +1,16 @@
-import { NodeSdk, OtlpLogger, OtlpMetrics } from "@effect/opentelemetry";
-import { NodeHttpClient } from "@effect/platform-node";
+import { NodeSdk } from "@effect/opentelemetry";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { BatchSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { CustomEffects } from "@repo/custom-effects";
-import { Effect, Layer, Logger, LogLevel } from "effect";
+import { Effect, Layer, References } from "effect";
+import { FetchHttpClient } from "effect/http";
+import {
+	OtlpLogger,
+	OtlpMetrics,
+	OtlpSerialization,
+} from "effect/observability";
 
-const catchPrintAndRethrow = Effect.catchAll((e) =>
+const catchPrintAndRethrow = Effect.catch((e) =>
 	Effect.gen(function* () {
 		yield* CustomEffects.logError({
 			message: `Error in buildLayers: ${e}`,
@@ -45,12 +50,14 @@ export const buildLayers = ({
 		serviceName,
 	);
 	return [
-		Logger.withMinimumLogLevel(LogLevel.Debug),
+		Effect.provideService(References.MinimumLogLevel, "Debug"),
 		catchPrintAndRethrow,
 		Effect.provide(
-			Layer.mergeAll(Logger.addScoped(LoggerLive), metricsLive, NodeSdkLive),
+			Layer.mergeAll(LoggerLive, metricsLive, NodeSdkLive).pipe(
+				Layer.provide(OtlpSerialization.layerJson),
+			),
 		),
-		Effect.provide(NodeHttpClient.layer),
+		Effect.provide(FetchHttpClient.layer),
 	] as const;
 };
 
@@ -91,7 +98,7 @@ function createOtlpLogger(
 	headers: { Authorization: string },
 	serviceName: string,
 ) {
-	return OtlpLogger.make({
+	return OtlpLogger.layer({
 		url: `${GRAFANA_OTEL_COLLECTOR_URL}/v1/logs`,
 		headers,
 		resource: { serviceName },

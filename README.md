@@ -1,135 +1,57 @@
-# Turborepo starter
+# Astro Turborepo template
 
-This Turborepo starter is maintained by the Turborepo core team.
+Astro SSR on Bun, with React, Tailwind CSS, Elysia APIs, and Effect/OpenTelemetry analytics in a pnpm workspace.
 
-## Using this example
+## Requirements
 
-Run the following command:
+- Node.js >=22.12.0 (Node 24 LTS recommended)
+- pnpm 12.11.2 (`corepack enable` uses the version in `package.json`)
+- Bun >=1.3.14 for development, builds, and production
+
+## Getting started
 
 ```sh
-npx create-turbo@latest
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-## What's inside?
+The app is in `apps/astro-app`. Shared packages are `@repo/ui`, `@repo/types`, `@repo/custom-effects`, and `@repo/typescript-config`.
 
-This Turborepo includes the following packages/apps:
+## Checks and production
 
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+```sh
+pnpm lint
+pnpm check-types
+pnpm test
+pnpm test:runtime
+pnpm build
+pnpm --filter unseal-astro preview
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+Development uses port 4321; production preview uses port 8080. Set `HOST` and `PORT` to override the production listener. `pnpm start:prod` builds and starts the app under Bun. pnpm remains the workspace package manager; Vitest and TypeScript run with Node, while the Astro CLI and production server run with Bun.
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+`pnpm test:runtime` builds the app and launches its real production entrypoint under Bun on an available port. It checks SSR, static assets, GET/POST APIs, validation, analytics actions, and OTLP logs, metrics, and traces against a local collector.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+Configure server telemetry environment variables before running production:
 
-### Develop
+| Variable | Default |
+| --- | --- |
+| `OTEL_SERVICE_NAME` | `astro-app` |
+| `GRAFANA_OTEL_COLLECTOR_URL` | `http://localhost:4318` |
+| `GRAFANA_OTEL_EXPORTER_OTLP_TOKEN` | Required; use an empty string for an unauthenticated local collector |
 
-To develop all apps and packages, run the following command:
+Secrets are validated at request time and never embedded in client bundles. For local development, export these variables in your shell. Add your production URL as the `site` option in `apps/astro-app/astro.config.mjs` to enable sitemap generation; without it Astro emits a warning and skips the sitemap.
 
-```
-cd my-turborepo
+## Dependency migration
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+All direct registry dependencies are updated to their latest stable releases, including Astro 7, React 19.3, Effect 4, TypeScript 7, Vitest 5, Lucide 1, Nanostores React 2, and ESLint 10. The pnpm lockfile is refreshed; the obsolete Deno lockfile is removed.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+Breaking-change adjustments:
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+- Astro/Bun: use the official `@astrojs/node` adapter in standalone mode with server output. Bun runs the Astro CLI and `dist/server/entry.mjs` using its Node compatibility layer. Deno is no longer required. Server secrets are validated through `node:process` at request time.
+- Shared schemas: use Zod 4 directly instead of Astro's virtual schema module, allowing standalone type checking.
+- Effect 4: migrate log severity names, curried logging, error recovery, spans, and minimum log level. OTLP logs/metrics now come from `effect/observability`, with explicit JSON serialization and the fetch HTTP client; tracing retains the OpenTelemetry Node SDK.
+- Remove the unused Effect 3-only `@effect/platform` dependency and the existing export of a nonexistent action module.
+- pnpm 12: migrate build-script permissions to `allowBuilds`. Exact-version release-age exceptions permit this upgrade's fresh releases without disabling the age policy for other packages.
+- Override Elysia's transitive `file-type` dependency to 22.1.1 to avoid known parser denial-of-service vulnerabilities.
+- Wire every source package into Turborepo type checking and add a root test task.

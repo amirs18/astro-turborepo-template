@@ -1,43 +1,23 @@
-# Astro Starter Kit: Minimal
+# Astro app on Bun
+
+From the repository root:
 
 ```sh
-pnpm create astro@latest -- --template minimal
+pnpm install --frozen-lockfile
+pnpm dev
+pnpm build
+pnpm test:runtime
+pnpm --filter unseal-astro preview
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Requires Bun >=1.3.14, Node >=22.12.0, and pnpm 12.11.2. The official `@astrojs/node` standalone adapter generates a Node-compatible server that runs under Bun. Development and builds also use Bun.
 
-## 🚀 Project Structure
+Production defaults to port 8080. Override the listener with `HOST` and `PORT`:
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+HOST=0.0.0.0 PORT=8085 pnpm start:prod
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Set `GRAFANA_OTEL_EXPORTER_OTLP_TOKEN` at runtime for analytics actions; an empty string is accepted for a local unauthenticated collector. `GRAFANA_OTEL_COLLECTOR_URL` defaults to `http://localhost:4318`, and `OTEL_SERVICE_NAME` defaults to `astro-app`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+See the [root README](../../README.md) for the shared packages, test commands, and migration details.

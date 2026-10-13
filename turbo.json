@@ -1,32 +1,54 @@
 {
-  "$schema": "https://turborepo.com/schema.json",
-  "ui": "tui",
-  "tasks": {
-    "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".astro/**", "dist/**"]
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "check-types": {
-      "dependsOn": ["^check-types"]
-    },
-    "dev": {
-      "cache": false,
-      "persistent": true
-    },
-    "setup:rust": {
-      "dependsOn": []
-    },
-    "build:rust": {
-      "dependsOn": ["setup:rust"],
-      "inputs": ["src/**", "Cargo.toml", "Cargo.lock"],
-      "outputs": ["pkg/**"]
-    },
-    "start:prod": {
-      "dependsOn": ["build"]
-    }
-  }
+	"$schema": "https://turborepo.com/schema.json",
+	"ui": "tui",
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"inputs": ["$TURBO_DEFAULT$", ".env*"],
+			"outputs": [".astro/**", "dist/**"]
+		},
+		"lint": {
+			"dependsOn": ["^lint"]
+		},
+		"check-types": {
+			"dependsOn": ["^check-types"]
+		},
+		"test": {
+			"dependsOn": ["^check-types"]
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true,
+			"passThroughEnv": [
+				"OTEL_SERVICE_NAME",
+				"GRAFANA_OTEL_COLLECTOR_URL",
+				"GRAFANA_OTEL_EXPORTER_OTLP_TOKEN"
+			]
+		},
+		"setup:rust": {
+			"dependsOn": []
+		},
+		"build:rust": {
+			"dependsOn": ["setup:rust"],
+			"inputs": ["src/**", "Cargo.toml", "Cargo.lock"],
+			"outputs": ["pkg/**"]
+		},
+		"test:runtime": {
+			"dependsOn": ["build"],
+			"cache": false
+		},
+		"start:prod": {
+			"dependsOn": ["build"],
+			"cache": false,
+			"persistent": true,
+			"passThroughEnv": [
+				"HOST",
+				"PORT",
+				"NODE_ENV",
+				"OTEL_SERVICE_NAME",
+				"GRAFANA_OTEL_COLLECTOR_URL",
+				"GRAFANA_OTEL_EXPORTER_OTLP_TOKEN"
+			]
+		}
+	}
 }
